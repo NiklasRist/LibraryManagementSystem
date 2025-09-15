@@ -1,10 +1,10 @@
 package at.fhv.librarymanagementsystem.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -15,15 +15,25 @@ public class Buch {
     @Column(nullable = false)
     private String titel;
     private String beschreibung;
-    @Column(nullable = false, unique = true, updatable = false)
-    private String isbn;
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(
+            name = "buch_kategorien",
+            joinColumns = @JoinColumn(name = "buch_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"buch_id", "kategorie"}))
     @Column(nullable = false)
-    private String veroeffentlichungsdatum;
+    private Set<Kategorie> kategorie;
     @Column(nullable = false)
-    private String verlag;
-    @Column(nullable = false)
-    private String autor;
-    @Column(nullable = false)
-    private String kategorie;
+    private boolean verfuegbarkeit;
+
+    @OneToMany(mappedBy = "buch", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ausleihe> ausleihen;
+    @OneToMany(mappedBy = "buch", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reservierung> reservierungen;
+    @OneToMany(mappedBy = "buch", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SpaeterLesen> spaeterLesen;
+
+    @OneToMany(mappedBy = "buch", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Veroeffentlichung> veroeffentlichungen;
 
 }

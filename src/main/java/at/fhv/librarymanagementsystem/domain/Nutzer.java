@@ -1,10 +1,9 @@
 package at.fhv.librarymanagementsystem.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -20,4 +19,11 @@ public class Nutzer {
     private String email;
     @Column(nullable = false)
     private String passwort;
-}
+
+    @OneToMany(mappedBy = "nutzer")
+    private List<Reservierung> reservierungen;
+    @OneToMany(mappedBy = "nutzer")
+    private List<Ausleihe> ausleihen;
+    @OneToMany(mappedBy = "nutzer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SpaeterLesen> spaeterLesen;
+    }

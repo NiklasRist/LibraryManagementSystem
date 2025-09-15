@@ -1,10 +1,10 @@
 package at.fhv.librarymanagementsystem.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -18,4 +18,8 @@ public class Autor {
     private String nachname;
     @Column(nullable = false, unique = true)
     private String email;
+
+    @OneToMany(mappedBy = "autor")
+    private List<Veroeffentlichung> veroeffentlichungen;
+
 }
