@@ -1,11 +1,12 @@
 package at.fhv.librarymanagementsystem.controller;
 
 import at.fhv.librarymanagementsystem.service.AdminService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/api/v1/")
+@RestController
+@RequestMapping("/api/v1/admin")
 public class AdminController {
 
     private final AdminService adminService;
@@ -16,10 +17,40 @@ public class AdminController {
 
     //GET
 
+    @GetMapping("/profile")
+    public ResponseEntity<AdminDTO> getAdmin(@RequestParam String email){}
+
+
     //POST
+
+    @PostMapping("/register")
+    public ResponseEntity<AdminDTO> registriereAdmin(@RequestBody AdminDTO dto) {
+
+    }
+
+
+    @PostMapping("/login")
+    public ResponseEntity<AdminDTO> getAdmin(@RequestParam String email, @RequestParam String passwort){
+    }
 
     //UPDATE
 
+    @PutMapping("/profile")
+    public ResponseEntity<AdminDTO> aktualisiereAdmin(@RequestBody AdminDTO dto){
+    }
+
     //DELETE
+
+    @DeleteMapping("/profile")
+    public ResponseEntity<AdminDTO> loescheAdmin(@RequestParam String email, @RequestParam String password){}
+
+    @DeleteMapping("/delete/book")
+    public ResponseEntity<AdminDTO> loescheBuch(@RequestParam String titel){}
+
+    @DeleteMapping("/delete/user")
+    public ResponseEntity<AdminDTO> loescheNutzer(@RequestParam String email){}
+
+    @DeleteMapping("/delete/author")
+    public ResponseEntity<AdminDTO> loescheAutor(@RequestParam String email){}
 
 }

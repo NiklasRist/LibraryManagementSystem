@@ -1,11 +1,13 @@
 package at.fhv.librarymanagementsystem.controller;
 
+import at.fhv.librarymanagementsystem.domain.Nutzer;
 import at.fhv.librarymanagementsystem.service.NutzerService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/api/v1/")
+@RestController
+@RequestMapping("/api/v1/user/")
 public class NutzerController {
     private final NutzerService nutzerService;
 
@@ -15,9 +17,31 @@ public class NutzerController {
 
     //GET
 
+    @GetMapping("/profile")
+    public ResponseEntity<NutzerDTO> getNutzer(@RequestParam String email){}
+    
+
     //POST
+
+    @PostMapping("/register")
+    public ResponseEntity<NutzerDTO> registriereNutzer(@RequestBody NutzerDTO dto) {
+
+    }
+
+
+    @PostMapping("/login")
+    public ResponseEntity<NutzerDTO> getNutzer(@RequestParam String email, @RequestParam String passwort){
+    }
 
     //UPDATE
 
+    @PutMapping("/profile")
+    public ResponseEntity<NutzerDTO> aktualisiereNutzer(@RequestBody NutzerDTO dto){
+    }
+
     //DELETE
+
+    @DeleteMapping("/profile")
+    public ResponseEntity<NutzerDTO> loescheNutzer(@RequestParam String email, @RequestParam String password){}
 }
+

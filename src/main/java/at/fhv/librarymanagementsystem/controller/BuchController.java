@@ -4,15 +4,12 @@ import at.fhv.librarymanagementsystem.service.BuchService;
 import at.fhv.librarymanagementsystem.service.VeroeffentlichungService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("/api/v1/")
+@RestController
+@RequestMapping("/api/v1/book")
 public class BuchController {
 
     private final BuchService buchService;
@@ -34,27 +31,37 @@ public class BuchController {
 
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<BuchDTO>> sucheNachBuch(@RequestParam String titel, @RequestParam String kategorie){
-
-    }
-
-    @GetMapping("/search")
-    public ResponseEntity<List<BuchDTO>> sucheNachBuch(@RequestParam String kategorie){
-
-    }
-
-
     //POST
-    
+
     @PostMapping("/publish")
     public ResponseEntity<BuchDTO> veroeffentlicheBuch(@RequestParam String isbn, @RequestParam String titel, @RequestParam String beschreibung, @RequestParam List<String> kategorien, @RequestParam boolean verfuegbarkeit, @RequestParam String verlag) {}
 
+    @PostMapping("/{isbn}/borrow")
+    public ResponseEntity<String> leiheBuchAus(@PathVariable String isbn, @RequestParam String nutzerId) {
+        boolean success = buchService.leiheBuchAus(isbn, nutzerId);
+        return success ? ResponseEntity.ok("Buch ausgeliehen")
+                : ResponseEntity.badRequest().body("Nicht verfügbar");
+    }
+
+    @PostMapping("/{isbn}/reserve")
+    public ResponseEntity<String> reserviereBuch(@PathVariable String isbn, @RequestParam String nutzerId) {
+        boolean success = buchService.reserviereBuch(isbn, nutzerId);
+        return success ? ResponseEntity.ok("Buch reserviert")
+                : ResponseEntity.badRequest().body("Reservierung fehlgeschlagen");
+    }
+
+    @PostMapping("/{isbn}/watchlist")
+    public ResponseEntity<String> fuegeZurWatchlistHinzu(@PathVariable String isbn, @RequestParam String nutzerId) {
+        buchService.fuegeZurWatchlistHinzu(isbn, nutzerId);
+        return ResponseEntity.ok("Zur Watchlist hinzugefügt");
+    }
+
 
     //UPDATE
+    @PutMapping("/edit")
     public ResponseEntity<BuchDTO> aktualisiereBuch(@RequestParam String isbn, @RequestParam String titel, @RequestParam String beschreibung, @RequestParam List<String> kategorien, @RequestParam boolean verfuegbarkeit, @RequestParam String verlag) {}
 
     //DELETE
-
+    @DeleteMapping("/delete")
     public ResponseEntity<BuchDTO> loescheBuch(@RequestParam String isbn, @RequestParam String titel, @RequestParam String beschreibung, @RequestParam List<String> kategorien, @RequestParam boolean verfuegbarkeit, @RequestParam String verlag) {}
 }
