@@ -6,6 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Data;
 
+import java.util.Optional;
+
 @Entity
 @Data
 public class Admin {
@@ -20,4 +22,5 @@ public class Admin {
     private String email;
     @Column(nullable = false)
     private String passwort;
+
 }

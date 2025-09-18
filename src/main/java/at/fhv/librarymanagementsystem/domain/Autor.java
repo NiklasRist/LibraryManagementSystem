@@ -18,6 +18,8 @@ public class Autor {
     private String nachname;
     @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false)
+    private String passwort;
 
     @OneToMany(mappedBy = "autor")
     private List<Veroeffentlichung> veroeffentlichungen;
