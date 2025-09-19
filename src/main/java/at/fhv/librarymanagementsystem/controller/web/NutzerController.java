@@ -1,4 +1,4 @@
-package at.fhv.librarymanagementsystem.controller.api;
+package at.fhv.librarymanagementsystem.controller.web;
 
 import at.fhv.librarymanagementsystem.service.NutzerService;
 import org.springframework.http.ResponseEntity;
